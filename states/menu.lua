@@ -44,6 +44,9 @@ function state.onLoad ( self, prevstatename )
 
   statemgr.registerInputCallbacks()
 
+  -- autostart
+  table.insert(self.commands_queue,"game")
+
 end
 
 ----------------------------------------------------------------

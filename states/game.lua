@@ -25,11 +25,6 @@ function state.onLoad ( self, prevstatename, plevel )
   if MOAIInputMgr.device.keyboard and MOAIInputMgr.device.keyboard.keyIsDown and false then
     -- keyboard events
   else
-    -- touch/mouse joypad
-    self.joystick = MOAIProp2D.new ()
-    self.joystick:setDeck ( utils.MOAIGfxQuad2D_new (images.joypad) )
-    self.joystick:setLoc (-utils.screen_middlewidth+80,-utils.screen_middleheight+80)
-    layerGui:insertProp ( self.joystick )
     -- touch/mouse pause
     self.pausebutton = MOAIProp2D.new ()
     self.pausebutton:setDeck ( utils.MOAIGfxQuad2D_new (images.button) )
@@ -58,8 +53,6 @@ function state.onLoad ( self, prevstatename, plevel )
   end
 
   statemgr.registerInputCallbacks()
-
-  soundmgr.playMusic(musics.TheHaunting)
 
 end
 
@@ -114,22 +107,9 @@ function state.onInput ( self )
       GAMEOBJECT.player:input("e")
     end
   end
-  if self.joystick then
+  if self.pause then
     local mousex, mousey = self.layerGui:wndToWorld ( inputmgr:getTouch ())
     if inputmgr:isDown() then
-      if self.joystick:inside(mousex,mousey) then
-        local cx, cy = self.joystick:getLoc()
-        local radian = math.atan2(math.abs(mousex - cx), math.abs(mousey - cy))
-        local dir
-        if mousex == cx and mousey == cy then
-          dir = M.STICK_CENTER
-        elseif math.cos(radian) < math.sin(radian) then
-          dir = mousex < cx and "w" or "e"
-        else
-          dir = mousey < cy and "s" or "n"
-        end
-        GAMEOBJECT.player:input(dir)
-      end
     elseif inputmgr:up() then
       if self.pause:inside(mousex,mousey) then
         statemgr.push("pause")
@@ -158,9 +138,6 @@ function state.onUnload ( self )
 
   GAMEOBJECT:unload()
 
-  if self.joystick then
-    self.layerGui:removeProp ( self.joystick )
-  end
   if self.pausebutton then
     self.layerGui:removeProp ( self.pausebutton )
   end
