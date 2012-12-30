@@ -163,4 +163,12 @@ function state.onUnload ( self )
 
 end
 
+----------------------------------------------------------------
+function state.onTouch (self,source,up,idx,x,y,tapcount)
+  if up then
+    local _x,_y = self.layerGui:wndToWorld(x,y)
+    GAMEOBJECT:addcircle(_x,_y,10)
+  end
+end
+
 return state

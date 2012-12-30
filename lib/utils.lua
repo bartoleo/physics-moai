@@ -101,3 +101,9 @@ function utils.generateId(ptype)
   _G.counterid = _G.counterid + 1
   return ptype.._G.counterid
 end
+
+function utils.distance(x1,y1,x2,y2)
+  local dx=x2-x1
+  local dy=y2-y1
+  return math.sqrt(math.pow(dx,2)+math.pow(dy,2))
+end
