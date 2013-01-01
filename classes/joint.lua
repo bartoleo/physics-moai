@@ -20,9 +20,8 @@ function joint:update()
   local _x1,_y1 = self.b1:getWorldCenter()
   local _x2,_y2 = self.b2:getWorldCenter()
   self.joint.branch:setLoc((_x1+_x2)/2,(_y1+_y2)/2)
-  local angle = math.atan2(_y2-_y1, _x2-_x1)
+  local angle = math.atan2(_y2-_y1, _x2-_x1)*57.324
   self.joint.branch:setRot(angle)
-  print (angle)
 end
 
 return joint
