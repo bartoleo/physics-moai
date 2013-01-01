@@ -22,6 +22,8 @@ function joint:update()
   self.joint.branch:setLoc((_x1+_x2)/2,(_y1+_y2)/2)
   local angle = math.atan2(_y2-_y1, _x2-_x1)*57.324
   self.joint.branch:setRot(angle)
+  local distance = utils.distance(_x1,_y1,_x2,_y2)
+  self.joint.branch:setScl(distance/40,1)
 end
 
 return joint

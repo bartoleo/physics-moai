@@ -43,14 +43,14 @@ function state.onLoad ( self, prevstatename, plevel )
     -- touch/mouse exit
     self.exitbutton = MOAIProp2D.new ()
     self.exitbutton:setDeck ( utils.MOAIGfxQuad2D_new (images.button) )
-    self.exitbutton:setLoc(utils.screen_middlewidth-80,utils.screen_middleheight-80)
+    self.exitbutton:setLoc(-utils.screen_middlewidth+80,-utils.screen_middleheight+85)
     layerGui:insertProp ( self.exitbutton )    self.exit = MOAITextBox.new ()
     self.exit:setFont ( fonts["Peralta-Regular,12"] )
     self.exit:setAlignment ( MOAITextBox.CENTER_JUSTIFY )
     self.exit:setYFlip ( true )
     self.exit:setRect ( -30, -20, 30, 20 )
     self.exit:setString ( "X\nexit" )
-    self.exit:setLoc(utils.screen_middlewidth-80,utils.screen_middleheight-80)
+    self.exit:setLoc(-utils.screen_middlewidth+80,-utils.screen_middleheight+80)
     layerGui:insertProp ( self.exit )
   end
 
@@ -60,7 +60,7 @@ end
 
 ----------------------------------------------------------------
 function state.onFocus ( self, prevstatename )
-  MOAIGfxDevice.setClearColor ( 0, 0, 0, 1 )
+  MOAIGfxDevice.setClearColor ( 0.4, 0.4, 1, 1 )
 end
 
 ----------------------------------------------------------------
