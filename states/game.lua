@@ -4,6 +4,7 @@ local state = {}
 state.updates = 0
 state.layerTable = nil
 state.layerGui = nil
+state.layer = nil
 state.commands_queue = {}
 
 ----------------------------------------------------------------
@@ -17,6 +18,7 @@ function state.onLoad ( self, prevstatename, plevel )
   self.layerTable [ 1 ] = { layer, layerGui }
 
   self.layerGui = layerGui
+  self.layer = layer
 
   self.updates = 0
 
@@ -166,7 +168,7 @@ end
 ----------------------------------------------------------------
 function state.onTouch (self,source,up,idx,x,y,tapcount)
   if up then
-    local _x,_y = self.layerGui:wndToWorld(x,y)
+    local _x,_y = self.layer:wndToWorld(x,y)
     GAMEOBJECT:addcircle(_x,_y,10)
   end
 end

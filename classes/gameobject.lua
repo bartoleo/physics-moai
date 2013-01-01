@@ -7,9 +7,6 @@ function gameobject:init(layer,  layerGui)
   self.entities={}
   self.entitiesId={}
 
-  self.bodies={}
-  self.fixtures={}
-
   self.layer = layer
 
   -- scale set so screen is 20 meters tall
@@ -18,8 +15,7 @@ function gameobject:init(layer,  layerGui)
   self.world = MOAIBox2DWorld.new()
   self.world:setGravity( 0, -10 )
   self.world:setUnitsToMeters( 1 / scale )
-  self.world:setDebugDrawFlags( MOAIBox2DWorld.DEBUG_DRAW_SHAPES + MOAIBox2DWorld.DEBUG_DRAW_JOINTS +
-   MOAIBox2DWorld.DEBUG_DRAW_PAIRS + MOAIBox2DWorld.DEBUG_DRAW_CENTERS )
+  --self.world:setDebugDrawFlags( MOAIBox2DWorld.DEBUG_DRAW_SHAPES + MOAIBox2DWorld.DEBUG_DRAW_JOINTS + MOAIBox2DWorld.DEBUG_DRAW_PAIRS + MOAIBox2DWorld.DEBUG_DRAW_CENTERS )
 
   self.layer:setBox2DWorld( self.world )
 
@@ -98,27 +94,29 @@ function gameobject:entitiesDo(action,filtertype,...)
   end
 end
 
-function gameobject:addcircle(x,y, r)
-  local _body = self.world:addBody( MOAIBox2DBody.DYNAMIC )
-  _body:setTransform( x, y )
-  local _fixture = _body:addCircle( 0, 0, r )
-  table.insert(self.bodies,_body)
-  table.insert(self.fixtures,_fixture)
-  local _x1,_y1 = _body:getWorldCenter()
-  local _x2,_y2 
-  for i=1,#self.bodies do
-    _x2,_y2 = self.bodies[i]:getWorldCenter() 
-    if utils.distance(_x1,_y1,_x2,_y2)<80 then
-      self:addDistanceJoints(_body,self.bodies[i])
+function gameobject:addcircle(x,y,r,type)
+  
+  local _ball = classes.ball:new(self,x,y,r,type)
+
+  self:registerEntity(_ball)
+
+  local _x1,_y1 = _ball.body:getWorldCenter()
+  local _x2,_y2
+  for i=1,#self.entities-1 do
+    if self.entities[i].type=="ball" and self.entities[i]~=_ball then
+      _x2,_y2 = self.entities[i].body:getWorldCenter()
+      if utils.distance(_x1,_y1,_x2,_y2)<80 then
+        self:addDistanceJoints(_ball.body,self.entities[i].body)
+      end
     end
   end
-
 end
 
 function gameobject:addDistanceJoints(b1,b2)
-  local _x1,_y1 = b1:getWorldCenter()
-  local _x2,_y2 = b2:getWorldCenter()
-  self.world:addDistanceJoint (b1,b2,_x1,_y1,_x2,_y2,4,0.5)
+
+  local _joint = classes.joint:new(self,b1,b2)
+  self:registerEntity(_joint)
+  
 end
 
 return gameobject
