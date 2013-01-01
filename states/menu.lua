@@ -21,7 +21,7 @@ function state.onLoad ( self, prevstatename )
 
   local textbox = {}
   textbox[1] = MOAITextBox.new ()
-  textbox[1]:setFont ( fonts["resource,64"] )
+  textbox[1]:setFont ( fonts["Peralta-Regular,32"] )
   textbox[1]:setAlignment ( MOAITextBox.CENTER_JUSTIFY )
   textbox[1]:setYFlip ( true )
   textbox[1]:setRect ( -150, -40, 150, 40 )
@@ -30,7 +30,7 @@ function state.onLoad ( self, prevstatename )
   layer:insertProp ( textbox[1] )
 
   textbox[2] = MOAITextBox.new ()
-  textbox[2]:setFont ( fonts["resource,20"] )
+  textbox[2]:setFont ( fonts["Peralta-Regular,16"] )
   textbox[2]:setAlignment ( MOAITextBox.CENTER_JUSTIFY )
   textbox[2]:setYFlip ( true )
   textbox[2]:setRect ( -150, -25, 150, 25 )
@@ -155,7 +155,7 @@ function state.setGuiMenu(self)
   self.menu = "menu"
   self.simplegui:clear()
   self.simplegui.divisor=12
-  self.simplegui:setlayout("down",-utils.screen_width/2,100,utils.screen_width,300,fonts["resource,32"],20,{r=1,g=1,b=1,a=1},{r=1,g=1,b=0,a=1},self.menulayer,inputmgr.keyboardPresent(),"center")
+  self.simplegui:setlayout("down",-utils.screen_width/2,100,utils.screen_width,300,fonts["Peralta-Regular,16"],20,{r=1,g=1,b=1,a=1},{r=1,g=1,b=0,a=1},self.menulayer,inputmgr.keyboardPresent(),"center")
   self.simplegui:addelement("game","button",{text="New Game",width=200})
   local _enabledcontinue=false
   self:checkLevelContinue()
@@ -174,8 +174,8 @@ function state.setGuiOptions (self)
   self.menu = "options"
   self.simplegui:clear()
   self.simplegui.divisor=12
-  self.simplegui:setlayout("down",-utils.screen_width/2,100,utils.screen_width,300,fonts["resource,32"],20,{r=1,g=1,b=1,a=1},{r=1,g=1,b=0,a=1},self.menulayer,inputmgr.keyboardPresent(),"center")
-  self.simplegui:addelement("options","label",{text="[Options]",font=fonts["resource,48"],fontheight=30,width=200})
+  self.simplegui:setlayout("down",-utils.screen_width/2,100,utils.screen_width,300,fonts["Peralta-Regular,16"],20,{r=1,g=1,b=1,a=1},{r=1,g=1,b=0,a=1},self.menulayer,inputmgr.keyboardPresent(),"center")
+  self.simplegui:addelement("options","label",{text="[Options]",font=fonts["Peralta-Regular,48"],fontheight=30,width=200})
   self.simplegui:addelement("sep1","separator",{height=10,width=200})
   self.simplegui:addelement("volume","hcombo",{width=200,text="Volume:",value=soundmgr.globalvolume*100,values={0,"0%",10,"10%",20,"20%",30,"30%",40,"40%",50,"50%",60,"60%",70,"70%",80,"80%",90,"90%",100,"100%"}})
   self.simplegui:addelement("landscape","checkbox",{width=400,text="Landscape (must restart):",value=config.landscape,valuechecked=true,valueunchecked=false})
@@ -188,8 +188,8 @@ function state.setGuiContinue (self)
   self.menu = "continue"
   self.simplegui:clear()
   self.simplegui.divisor=12
-  self.simplegui:setlayout("down",-utils.screen_width/2,100,utils.screen_width,300,fonts["resource,32"],20,{r=1,g=1,b=1,a=1},{r=1,g=1,b=0,a=1},self.menulayer,inputmgr.keyboardPresent(),"center")
-  self.simplegui:addelement("continue","label",{text="[Continue]",font=fonts["resource,48"],fontheight=30,width=200})
+  self.simplegui:setlayout("down",-utils.screen_width/2,100,utils.screen_width,300,fonts["Peralta-Regular,16"],20,{r=1,g=1,b=1,a=1},{r=1,g=1,b=0,a=1},self.menulayer,inputmgr.keyboardPresent(),"center")
+  self.simplegui:addelement("continue","label",{text="[Continue]",font=fonts["Peralta-Regular,48"],fontheight=30,width=200})
   self.simplegui:addelement("sep1","separator",{height=10,width=200})
   local _values={}
   for i=1,self.levelcontinue do

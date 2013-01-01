@@ -33,7 +33,7 @@ function state.onLoad ( self, prevstatename )
 	layer:insertProp ( self.box )
 
     self.textbox1 = MOAITextBox.new ()
-    self.textbox1:setFont ( fonts["resource,64"] )
+    self.textbox1:setFont ( fonts["Peralta-Regular,32"] )
     self.textbox1:setAlignment ( MOAITextBox.CENTER_JUSTIFY )
     self.textbox1:setYFlip ( true )
     self.textbox1:setRect ( -200, -32, 200, 32 )
