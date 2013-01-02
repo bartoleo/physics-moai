@@ -15,7 +15,7 @@ function gameobject:init(layer,  layerGui)
   self.world = MOAIBox2DWorld.new()
   self.world:setGravity( 0, -10 )
   self.world:setUnitsToMeters( 1 / scale )
-  self.world:setDebugDrawFlags( 0 )self.world:setDebugDrawFlags( MOAIBox2DWorld.DEBUG_DRAW_SHAPES + MOAIBox2DWorld.DEBUG_DRAW_JOINTS + MOAIBox2DWorld.DEBUG_DRAW_PAIRS + MOAIBox2DWorld.DEBUG_DRAW_CENTERS )
+  self.world:setDebugDrawFlags( 0 )
   --self.world:setDebugDrawFlags( MOAIBox2DWorld.DEBUG_DRAW_SHAPES + MOAIBox2DWorld.DEBUG_DRAW_JOINTS + MOAIBox2DWorld.DEBUG_DRAW_PAIRS + MOAIBox2DWorld.DEBUG_DRAW_CENTERS )
 
   self.layer:setBox2DWorld( self.world )
