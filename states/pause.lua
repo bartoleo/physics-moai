@@ -7,7 +7,7 @@ state.IS_POPUP = true
 ----------------------------------------------------------------
 function state.onFocus ( self, prevstatename )
 
-	MOAIGfxDevice.setClearColor ( 0, 0, 0, 1 )
+	MOAIGfxDevice.setClearColor ( 0.4, 0.4, 1, 1 )
 
   self.startTime = MOAISim.getDeviceTime ()
 

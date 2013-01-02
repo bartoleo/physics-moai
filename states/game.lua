@@ -27,10 +27,15 @@ function state.onLoad ( self, prevstatename, plevel )
   if MOAIInputMgr.device.keyboard and MOAIInputMgr.device.keyboard.keyIsDown and false then
     -- keyboard events
   else
+    self.box = MOAIProp2D.new ()
+    self.box:setDeck ( utils.MOAIGfxQuad2D_new (images.box,utils.screen_width,100) )
+    self.box:setColor ( 0,0,0,1)
+    self.box:setLoc ( 0,-utils.screen_middleheight+50)
+    layerGui:insertProp ( self.box )
     -- touch/mouse pause
     self.pausebutton = MOAIProp2D.new ()
     self.pausebutton:setDeck ( utils.MOAIGfxQuad2D_new (images.button) )
-    self.pausebutton:setLoc(utils.screen_middlewidth-80,-utils.screen_middleheight+85)
+    self.pausebutton:setLoc(utils.screen_middlewidth-80,-utils.screen_middleheight+55)
     layerGui:insertProp ( self.pausebutton )
     self.pause = MOAITextBox.new ()
     self.pause:setFont ( fonts["Peralta-Regular,12"] )
@@ -38,19 +43,19 @@ function state.onLoad ( self, prevstatename, plevel )
     self.pause:setYFlip ( true )
     self.pause:setRect ( -30, -20, 30, 20 )
     self.pause:setString ( "| |\npause" )
-    self.pause:setLoc(utils.screen_middlewidth-80,-utils.screen_middleheight+85)
+    self.pause:setLoc(utils.screen_middlewidth-80,-utils.screen_middleheight+55)
     layerGui:insertProp ( self.pause )
     -- touch/mouse exit
     self.exitbutton = MOAIProp2D.new ()
     self.exitbutton:setDeck ( utils.MOAIGfxQuad2D_new (images.button) )
-    self.exitbutton:setLoc(-utils.screen_middlewidth+80,-utils.screen_middleheight+85)
+    self.exitbutton:setLoc(-utils.screen_middlewidth+80,-utils.screen_middleheight+55)
     layerGui:insertProp ( self.exitbutton )    self.exit = MOAITextBox.new ()
     self.exit:setFont ( fonts["Peralta-Regular,12"] )
     self.exit:setAlignment ( MOAITextBox.CENTER_JUSTIFY )
     self.exit:setYFlip ( true )
     self.exit:setRect ( -30, -20, 30, 20 )
     self.exit:setString ( "X\nexit" )
-    self.exit:setLoc(-utils.screen_middlewidth+80,-utils.screen_middleheight+80)
+    self.exit:setLoc(-utils.screen_middlewidth+80,-utils.screen_middleheight+55)
     layerGui:insertProp ( self.exit )
   end
 
@@ -169,7 +174,9 @@ end
 function state.onTouch (self,source,up,idx,x,y,tapcount)
   if up then
     local _x,_y = self.layer:wndToWorld(x,y)
-    GAMEOBJECT:addcircle(_x,_y,10)
+    if GAMEOBJECT:addcircle(_x,_y,10,false,nil) then
+      soundmgr.playSound(sounds.blop,0.5)
+    end
   end
 end
 

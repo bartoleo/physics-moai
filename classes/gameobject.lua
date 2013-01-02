@@ -15,14 +15,15 @@ function gameobject:init(layer,  layerGui)
   self.world = MOAIBox2DWorld.new()
   self.world:setGravity( 0, -10 )
   self.world:setUnitsToMeters( 1 / scale )
+  self.world:setDebugDrawFlags( 0 )self.world:setDebugDrawFlags( MOAIBox2DWorld.DEBUG_DRAW_SHAPES + MOAIBox2DWorld.DEBUG_DRAW_JOINTS + MOAIBox2DWorld.DEBUG_DRAW_PAIRS + MOAIBox2DWorld.DEBUG_DRAW_CENTERS )
   --self.world:setDebugDrawFlags( MOAIBox2DWorld.DEBUG_DRAW_SHAPES + MOAIBox2DWorld.DEBUG_DRAW_JOINTS + MOAIBox2DWorld.DEBUG_DRAW_PAIRS + MOAIBox2DWorld.DEBUG_DRAW_CENTERS )
 
   self.layer:setBox2DWorld( self.world )
 
   self.ground = {}
   self.ground.verts = {
-  -400,-200,
-  400,-200
+  -400,-150,
+  400,-150
   }
   self.ground.body = self.world:addBody( MOAIBox2DBody.STATIC, 0, -60 )
   self.ground.body.tag = 'ground'
@@ -31,8 +32,18 @@ function gameobject:init(layer,  layerGui)
   }
   self.ground.fixtures[1]:setFriction( 0.3 )
 
+  self.box = MOAIProp2D.new ()
+  self.box:setDeck ( utils.MOAIGfxQuad2D_new (images.grass,800,200) )
+  self.box:setLoc ( 0,-310)
+  self.layer:insertProp ( self.box )
+
+  self.cloud = MOAIProp2D.new ()
+  self.cloud:setDeck ( utils.MOAIGfxQuad2D_new (images.cloud) )
+  self.cloud:setLoc ( -50,50)
+  self.layer:insertProp ( self.cloud )
+
   --a dynamic body
-  self:addcircle(-50,0,10)
+  self:addcircle(-50,0,10,true,nil)
 
   self.world:start()
 end
@@ -94,22 +105,34 @@ function gameobject:entitiesDo(action,filtertype,...)
   end
 end
 
-function gameobject:addcircle(x,y,r,type)
-  
-  local _ball = classes.ball:new(self,x,y,r,type)
+function gameobject:addcircle(x,y,r,force,type)
 
-  self:registerEntity(_ball)
+  local neighbours={}
 
-  local _x1,_y1 = _ball.body:getWorldCenter()
-  local _x2,_y2
-  for i=1,#self.entities-1 do
-    if self.entities[i].type=="ball" and self.entities[i]~=_ball then
+  for i=1,#self.entities do
+    if self.entities[i].type=="ball" then
       _x2,_y2 = self.entities[i].body:getWorldCenter()
-      if utils.distance(_x1,_y1,_x2,_y2)<80 then
-        self:addDistanceJoints(_ball.body,self.entities[i].body)
+      if utils.distance(x,y,_x2,_y2)<80 then
+        table.insert(neighbours,self.entities[i])
       end
     end
   end
+
+  if #neighbours>0 or force then
+    local _ball = classes.ball:new(self,x,y,r,type)
+
+    self:registerEntity(_ball)
+
+    local _x1,_y1 = _ball.body:getWorldCenter()
+    local _x2,_y2
+    for i=1,#neighbours do
+      self:addDistanceJoints(_ball.body,neighbours[i].body)
+    end
+    return _ball
+  end
+
+  return nil
+
 end
 
 function gameobject:addDistanceJoints(b1,b2)

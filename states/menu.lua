@@ -44,9 +44,6 @@ function state.onLoad ( self, prevstatename )
 
   statemgr.registerInputCallbacks()
 
-  -- autostart
-  table.insert(self.commands_queue,"game")
-
 end
 
 ----------------------------------------------------------------
@@ -54,6 +51,8 @@ function state.onFocus ( self, prevstatename )
 
   self:setGuiMenu()
   self.simplegui:update()
+
+  MOAIGfxDevice.setClearColor ( 0.4, 0.4, 1, 1 )
 
 end
 ----------------------------------------------------------------
