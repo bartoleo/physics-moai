@@ -66,6 +66,7 @@ end
 ----------------------------------------------------------------
 function state.onFocus ( self, prevstatename )
   MOAIGfxDevice.setClearColor ( 0.4, 0.4, 1, 1 )
+  GAMEOBJECT:pause(false)
 end
 
 ----------------------------------------------------------------
@@ -77,6 +78,11 @@ function state.onUpdate ( self )
       local cmd = self.commands_queue[i]
       if cmd=="pop" then
         statemgr.pop(statemgr.fadein_fadeout_black)
+        _return = true
+      end
+      if cmd=="pause" then
+        GAMEOBJECT:pause(true)
+        statemgr.push("pause")
         _return = true
       end
       table.remove(self.commands_queue,i)
@@ -119,7 +125,7 @@ function state.onInput ( self )
     if inputmgr:isDown() then
     elseif inputmgr:up() then
       if self.pause:inside(mousex,mousey) then
-        statemgr.push("pause")
+        table.insert(self.commands_queue,"pause")
       elseif self.exit:inside(mousex,mousey) then
         GAMEOBJECT:unload()
         table.insert(self.commands_queue,"pop")
@@ -132,7 +138,7 @@ end
 ----------------------------------------------------------------
 function state.onKey (self,source, up,key)
   if up and key==112 then
-    statemgr.push("pause")
+    table.insert(state.commands_queue,"pause")
   end
   if up and key==27 then
     GAMEOBJECT:unload()

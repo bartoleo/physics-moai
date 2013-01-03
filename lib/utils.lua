@@ -90,7 +90,7 @@ end
 
 function utils.MOAIImage_new(image)
   local im = MOAIImage.new()
-  im:load(image,MOAIImage.TRUECOLOR)
+  im:load(image,MOAIImage.TRUECOLOR+ MOAIImage.PREMULTIPLY_ALPHA)
   return im
 end
 

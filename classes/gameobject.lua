@@ -9,6 +9,8 @@ function gameobject:init(layer,  layerGui)
 
   self.layer = layer
 
+  self.paused = false
+
   -- scale set so screen is 20 meters tall
   scale = 20
 
@@ -140,6 +142,16 @@ function gameobject:addDistanceJoints(b1,b2)
   local _joint = classes.joint:new(self,b1,b2)
   self:registerEntity(_joint)
   
+end
+
+function gameobject:pause(paused)
+  if paused then
+    self.paused = true
+    self.world:pause(true)
+  elseif self.pause then
+    self.paused = false
+    self.world:pause(false)
+  end
 end
 
 return gameobject
