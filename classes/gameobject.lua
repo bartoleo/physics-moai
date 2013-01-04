@@ -39,13 +39,12 @@ function gameobject:init(layer,  layerGui)
   self.box:setLoc ( 0,-310)
   self.layer:insertProp ( self.box )
 
-  self.cloud = MOAIProp2D.new ()
-  self.cloud:setDeck ( utils.MOAIGfxQuad2D_new (images.cloud) )
-  self.cloud:setLoc ( -50,50)
-  self.layer:insertProp ( self.cloud )
+  for i=1,10 do
+    self:registerEntity(classes.cloud:new(self,math.random()*600-300,math.random()*400,math.random()*0.5+0.5))
+  end
 
   --a dynamic body
-  self:addcircle(-50,0,10,true,nil)
+  self:addcircle(-50,0,10,true,MOAIBox2DBody.DYNAMIC)
 
   self.world:start()
 end
@@ -55,6 +54,7 @@ function gameobject:update()
   if self.level and self.level.update then
     self.level:update()
   end
+
   -- entities do update
   self:entitiesDo("update",nil)
   -- check win or lose
