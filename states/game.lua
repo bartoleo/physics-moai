@@ -60,6 +60,7 @@ function state.onLoad ( self, prevstatename, plevel )
   end
 
   statemgr.registerInputCallbacks()
+  soundmgr.playMusic(musics.FamiliarRoads,1)
 
 end
 
@@ -164,7 +165,7 @@ function state.onUnload ( self )
     self.layerGui:removeProp ( self.exit )
   end
 
-  soundmgr.stop(musics.TheHaunting)
+  soundmgr.stop(musics.FamiliarRoads)
 
   for i, layerSet in ipairs ( self.layerTable ) do
     for j, layer in ipairs ( layerSet ) do
