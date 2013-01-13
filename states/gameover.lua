@@ -67,8 +67,7 @@ function state.onUpdate ( self )
 
    	if self.waitSeconds < ( MOAISim.getDeviceTime () - self.startTime ) then
         GAMEOBJECT:unload()
-		statemgr.pop ( ) -- to game
-		statemgr.pop ( ) -- to menu
+		statemgr.popTo ("menu" )
 	end
 end
 

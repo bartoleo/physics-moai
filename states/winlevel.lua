@@ -75,8 +75,7 @@ function state.onUpdate ( self )
 		  	statemgr.swap ( "enterlevel")
 		else
 	        GAMEOBJECT:unload()
-			statemgr.pop ( ) -- to game
-			statemgr.pop ( ) -- to menu
+			statemgr.popTo ("menu" ) -- to menu
 		end
 	end
 end

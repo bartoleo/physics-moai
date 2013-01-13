@@ -225,11 +225,6 @@ function push ( stateFile,effects, ... )
 end
 
 ----------------------------------------------------------------
-function stop ( )
-  updateThread:stop ()
-end
-
-----------------------------------------------------------------
 function swap ( stateFile,effects, ... )
   local _effects_enter=nil
   local _effects_exit=nil
@@ -239,6 +234,18 @@ function swap ( stateFile,effects, ... )
   end
   pop ( _effects_exit ,...)
   push ( stateFile, _effects_enter ,... )
+end
+
+----------------------------------------------------------------
+function stop ( )
+  updateThread:stop ()
+end
+
+----------------------------------------------------------------
+function popTo (stateName, effects,...)
+  while curState.__statename ~= stateName do
+    pop(effects,...)
+  end
 end
 
 ----------------------------------------------------------------
