@@ -265,7 +265,7 @@ function registerInputCallbacks()
     setCallback("pointer", function(x,y) dispatchevent("move","pointer",false,1,x,y,0) end )
   end
   if MOAIInputMgr.device.mouseLeft then
-    setCallback("mouseLeft", function(up) local x,y = MOAIInputMgr.device.pointer:getLoc () dispatchevent("touch","pointer",up,1,x,y,1) end )
+    setCallback("mouseLeft", function(down) local x,y = MOAIInputMgr.device.pointer:getLoc () dispatchevent("touch","pointer",not down,1,x,y,1) end )
   end
   if MOAIInputMgr.device.touch then
     setCallback("touch", function(eventType, idx, x, y, tapCount) dispatchevent("touch","touch",eventType,idx,x,y,tapCount) end )

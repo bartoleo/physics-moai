@@ -6,6 +6,10 @@ state.layerTable = nil
 state.layerGui = nil
 state.layer = nil
 state.commands_queue = {}
+state.drag = false
+state.drag_d = 0
+state.drag_x = nil
+state.drag_y = nil
 
 ----------------------------------------------------------------
 function state.onLoad ( self, prevstatename, plevel )
@@ -60,7 +64,7 @@ function state.onLoad ( self, prevstatename, plevel )
   end
 
   statemgr.registerInputCallbacks()
-  soundmgr.playMusic(musics.FamiliarRoads,1)
+  soundmgr.playMusic(musics.FamiliarRoads,0.3)
 
 end
 
@@ -68,6 +72,7 @@ end
 function state.onFocus ( self, prevstatename )
   MOAIGfxDevice.setClearColor ( 0.4, 0.4, 1, 1 )
   GAMEOBJECT:pause(false)
+  self.drag = false
 end
 
 ----------------------------------------------------------------
@@ -91,6 +96,19 @@ function state.onUpdate ( self )
   end
   if _return then
     return
+  end
+
+  if self.drag then
+    self.drag_d = self.drag_d + 1
+    print (self.drag_d)
+    if self.drag_d>10 then
+      local _x,_y = self.layer:getLoc()
+      local _x2,_y2,_m2 = inputmgr.getTouch()
+      local _x3,_y3 = self.layer:wndToWorld(_x2,_y2)
+      self.layer:setLoc(_x-self.drag_x+_x3,_y+self.drag_y-_y3)
+      self.drag_x = _x3
+      self.drag_y = _y3
+    end
   end
 
   local _return = GAMEOBJECT:update()
@@ -179,12 +197,24 @@ end
 
 ----------------------------------------------------------------
 function state.onTouch (self,source,up,idx,x,y,tapcount)
-  if up then
+
+  if up==false then
+    self.drag = true
+    self.drag_d = 0
     local _x,_y = self.layer:wndToWorld(x,y)
-    if GAMEOBJECT:addcircle(_x,_y,10,false,nil) then
-      soundmgr.playSound(sounds.blop,0.5)
+    self.drag_x = _x
+    self.drag_y = _y
+  elseif up then
+    if self.drag and self.drag_d > 10 then
+    else
+      local _x,_y = self.layer:wndToWorld(x,y)
+      if GAMEOBJECT:addcircle(_x,_y,10,false,nil) then
+        soundmgr.playSound(sounds.blop,0.5)
+      end
     end
+    self.drag = false
   end
+  print (up,self.drag)
 end
 
 return state
